@@ -1,4 +1,4 @@
-name: Build and Push Contaner Images
+name: Build and Push Container Images
 
 on:
   release:
@@ -11,7 +11,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: alexandzors/uldas
 
 jobs:
   build-and-push:
@@ -34,6 +34,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set version tag
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push CPU image
         uses: docker/build-push-action@v6
         with:
@@ -41,7 +50,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -53,7 +62,7 @@ jobs:
           file: ./Dockerfile.nvidia
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cuda-${{ github.event.release.tag_name }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cuda-${{ steps.version.outputs.tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cuda-latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
