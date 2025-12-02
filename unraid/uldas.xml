@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>ULDAS</Name>
+  <Repository>alexandzors/uldas:latest</Repository>
+  <Registry>https://ghcr.io/r/alexandzors/uldas</Registry>
+  <Branch>
+    <Tag>latest</Tag>
+    <TagDescription>Latest CPU-only build</TagDescription>
+  </Branch>
+  <Branch>
+    <Tag>cuda-latest</Tag>
+    <TagDescription>NVIDIA GPU accelerated build</TagDescription>
+  </Branch>
+  <Network>bridge</Network>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/alexandzors/ULDAS/issues</Support>
+  <Project>https://github.com/alexandzors/ULDAS</Project>
+  <Overview>
+    ULDAS (Unified Language Detection and Subtitle Processing) automatically detects and tags audio/subtitle languages in your media files using Whisper AI. It can also analyze subtitles for forced/SDH detection.
+
+    Features:
+    - Automatic audio language detection using Whisper AI
+    - Subtitle language detection and analysis
+    - Forced subtitle detection
+    - SDH (Subtitles for Deaf/Hard of Hearing) detection
+    - MKV remuxing support
+    - Tracking to avoid reprocessing files
+  </Overview>
+  <Category>MediaApp:Video Tools:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/alexandzors/ULDAS/main/unraid/uldas.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/alexandzors/ULDAS/main/unraid/app.png</Icon>
+  <ExtraParams>--rm</ExtraParams>
+  <DateInstalled></DateInstalled>
+  <Description>
+    ULDAS automatically detects and tags audio/subtitle languages in your media files using Whisper AI.
+  </Description>
+  <Config Name="Config Directory" Target="/app/config" Default="/mnt/user/appdata/uldas" Mode="rw" Description="Configuration and tracking data" Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/uldas</Config>
+  <Config Name="Movies" Target="/media/movies" Default="/mnt/user/Movies" Mode="rw" Description="Path to your Movies library" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/Movies</Config>
+  <Config Name="TV Shows" Target="/media/tv" Default="/mnt/user/TV" Mode="rw" Description="Path to your TV Shows library" Type="Path" Display="always" Required="false" Mask="false">/mnt/user/TV</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID for file permissions" Type="Variable" Display="advanced" Required="false" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID for file permissions" Type="Variable" Display="advanced" Required="false" Mask="false">100</Config>
+</Container>
