@@ -1,0 +1,35 @@
+
+## Use only one of the services below depending on whether you want to use NVIDIA GPU acceleration or not.
+#Running both simultaneously is not recommended.
+
+services:
+  uldas:
+    container_name: uldas
+    image: ghcr.io/alexandzors/uldas:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./config:/app/config
+      - /path/to/movies:/media/movies
+      - /path/to/tv:/media/tv
+    restart: "no"
+
+  uldas-nvidia:
+    container_name: uldas-nvidia
+    image: ghcr.io/alexandzors/uldas:cuda-latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./config:/app/config
+      - /path/to/movies:/media/movies
+      - /path/to/tv:/media/tv
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: "no"
