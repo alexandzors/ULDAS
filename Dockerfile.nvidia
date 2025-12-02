@@ -1,4 +1,4 @@
-FROM nvidia/cuda:13.0.2-cudnn-devel-ubuntu24.04
+FROM nvidia/cuda:13.0.2-cudnn-runtime-ubuntu24.04
 
 LABEL maintainer="alexandzors"
 LABEL description="ULDAS - Unified Language Detection and Subtitle Processing (NVIDIA GPU)"
@@ -7,7 +7,6 @@ LABEL org.opencontainers.image.source="https://github.com/alexandzors/ULDAS"
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.12 \
-    python3.12-venv \
     python3-pip \
     ffmpeg \
     mkvtoolnix \
@@ -22,7 +21,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1 \
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --break-system-packages -r requirements.txt
 COPY ULDAS.py .
 RUN mkdir -p /app/config
 COPY config/config.example.yml /app/config/
